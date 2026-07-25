@@ -1,0 +1,12 @@
+{
+  "name": "@acmepay/sdk",
+  "version": "2.0.0",
+  "type": "module",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  }
+}

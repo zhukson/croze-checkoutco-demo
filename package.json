@@ -1,0 +1,21 @@
+{
+  "name": "checkoutco-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit false --outDir dist",
+    "typecheck": "tsc --pretty false",
+    "test": "npm run build --silent && node --test tests/*.test.mjs",
+    "demo:new": "node scripts/new-demo-copy.mjs"
+  },
+  "dependencies": {
+    "@acmepay/sdk": "file:vendor/acmepay-sdk-v1"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
