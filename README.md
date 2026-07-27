@@ -1,11 +1,10 @@
 # CheckoutCo × AcmePay
 
-This is the customer repository used in the Unbreak end-to-end demo. It is a
-small, real TypeScript checkout service pinned to AcmePay SDK v1.
+This is CheckoutCo's TypeScript checkout service. It is pinned to AcmePay SDK
+v1.8.2 and uses provider webhooks to manage payment and refund state.
 
-When AcmePay publishes API v2, Unbreak should detect the four affected call
-sites, open a pull request, and migrate the repository to the v2 SDK without
-changing its stable behavior.
+CheckoutCo uses automated provider updates to keep the integration current
+without changing its stable business behavior.
 
 ## The breaking change
 
@@ -18,7 +17,7 @@ AcmePay v2 introduces three contract changes:
 3. Refund creation is asynchronous. Orders remain `refund_pending` until a
    `refund.completed` webhook arrives.
 
-The local packages under `vendor/` model the real v1 and v2 SDK contracts. No
+The local packages under `vendor/` model the v1.8.2 and v2 SDK contracts. No
 external AcmePay service is required.
 
 ## Run the baseline
