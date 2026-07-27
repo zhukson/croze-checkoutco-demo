@@ -28,14 +28,30 @@ export interface OrderRecord {
   fulfilled: boolean;
 }
 
-export type OrderState = "created" | "paid" | "refunded";
+export type OrderState =
+  | "created"
+  | "payment_pending"
+  | "paid"
+  | "refund_pending"
+  | "refunded";
 
 export function transitionOrder(
   current: OrderState,
   event: WebhookEvent,
 ): OrderState {
+  if (current === "refunded") {
+    return current;
+  }
+
   if (event.type === "payment.succeeded") {
-    return "paid";
+    if (current === "paid" || current === "refund_pending") {
+      return current;
+    }
+    return event.data.status === "paid" ? "paid" : "payment_pending";
+  }
+
+  if (event.type === "refund.completed" && current === "refund_pending") {
+    return "refunded";
   }
 
   return current;
