@@ -10,7 +10,7 @@
     "demo:new": "node scripts/new-demo-copy.mjs"
   },
   "dependencies": {
-    "@acmepay/sdk": "file:vendor/acmepay-sdk-v1"
+    "@acmepay/sdk": "file:vendor/acmepay-sdk-v2"
   },
   "devDependencies": {
     "typescript": "5.9.3"
