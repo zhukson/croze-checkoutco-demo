@@ -30,10 +30,10 @@ npm run typecheck
 npm test
 ```
 
-The CI workflow exposes the exact checks Unbreak waits for:
+The CI workflow exposes the exact checks Croze waits for:
 
-- `Unbreak / typecheck`
-- `Unbreak / tests`
+- `Croze / typecheck`
+- `Croze / tests`
 
 ## Exact migration contract
 
@@ -55,8 +55,8 @@ To preview the real migration without touching this baseline:
 ```bash
 node scripts/new-demo-copy.mjs
 # Copy the printed path, then:
-node scripts/apply-expected-v2.mjs /tmp/unbreak-checkoutco-XXXXXXXX
-cd /tmp/unbreak-checkoutco-XXXXXXXX
+node scripts/apply-expected-v2.mjs /tmp/croze-checkoutco-XXXXXXXX
+cd /tmp/croze-checkoutco-XXXXXXXX
 npm ci && npm run typecheck && npm test
 ```
 

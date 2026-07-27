@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   typecheck:
-    name: Unbreak / typecheck
+    name: Croze / typecheck
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -27,7 +27,7 @@ jobs:
         run: npm run typecheck
 
   tests:
-    name: Unbreak / tests
+    name: Croze / tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository

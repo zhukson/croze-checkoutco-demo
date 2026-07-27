@@ -26,8 +26,8 @@ The pull request should:
 
 The pull request is ready when both GitHub checks pass:
 
-- `Unbreak / typecheck`
-- `Unbreak / tests`
+- `Croze / typecheck`
+- `Croze / tests`
 
 The local SDK packages are deliberately tiny type contracts. They keep this
 repository deterministic while making an incomplete migration fail at
