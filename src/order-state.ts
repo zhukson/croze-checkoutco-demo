@@ -28,14 +28,33 @@ export interface OrderRecord {
   fulfilled: boolean;
 }
 
-export type OrderState = "created" | "paid" | "refunded";
+// AcmePay v2 migration: pending states prevent premature fulfillment or refund completion.
+export type OrderState =
+  | "created"
+  | "payment_pending"
+  | "paid"
+  | "refund_pending"
+  | "refunded";
 
 export function transitionOrder(
   current: OrderState,
   event: WebhookEvent,
 ): OrderState {
+  if (current === "refunded") {
+    return current;
+  }
+
   if (event.type === "payment.succeeded") {
-    return "paid";
+    if (current === "paid" || current === "refund_pending") {
+      return current;
+    }
+    // AcmePay v2 migration: the event is final only when the provider reports paid.
+    return event.data.status === "paid" ? "paid" : "payment_pending";
+  }
+
+  // AcmePay v2 migration: refund.completed is the authoritative final transition.
+  if (event.type === "refund.completed" && current === "refund_pending") {
+    return "refunded";
   }
 
   return current;
