@@ -12,6 +12,7 @@ export async function requestRefund(
   });
 
   order.refundId = refund.id;
-  order.state = "refunded";
+  // AcmePay v2 migration: completion is authoritative via refund.completed.
+  order.state = "refund_pending";
   return refund;
 }

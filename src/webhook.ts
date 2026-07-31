@@ -16,9 +16,13 @@ export function handleWebhook(
   if (event.type === "payment.succeeded") {
     order.paymentId = event.data.payment_id;
     order.state = transitionOrder(order.state, event);
-    order.fulfilled = true;
-    processedEventIds.add(event.id);
+    // AcmePay v2 migration: pending payment events must not fulfill orders.
+    order.fulfilled = event.data.status === "paid";
+  } else {
+    order.refundId = event.data.refund_id;
+    order.state = transitionOrder(order.state, event);
   }
 
+  processedEventIds.add(event.id);
   return order;
 }

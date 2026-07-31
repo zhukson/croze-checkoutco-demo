@@ -19,8 +19,10 @@ export async function createCheckout(
   input: CheckoutInput,
 ): Promise<CheckoutResult> {
   const payment = await client.create({
-    amount_cents: input.amountCents,
-    currency: input.currency,
+    amount: {
+      value: (input.amountCents / 100).toFixed(2),
+      currency: input.currency.toUpperCase(),
+    },
     reference: input.orderId,
   });
 
