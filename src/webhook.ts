@@ -13,13 +13,35 @@ export function handleWebhook(
     return order;
   }
 
+  if (event.data.order_id !== order.id) {
+    return order;
+  }
+
   if (event.type === "payment.succeeded") {
-    order.paymentId = event.data.payment_id;
+    if (order.paymentId !== null && order.paymentId !== event.data.payment_id) {
+      return order;
+    }
+
+    order.paymentId ??= event.data.payment_id;
     order.state = transitionOrder(order.state, event);
     // AcmePay v2 migration: pending payment events must not fulfill orders.
-    order.fulfilled = event.data.status === "paid";
+    if (event.data.status === "paid" && order.state === "paid") {
+      order.fulfilled = true;
+    }
   } else {
-    order.refundId = event.data.refund_id;
+    if (order.paymentId !== event.data.payment_id) {
+      return order;
+    }
+
+    if (order.refundId === null) {
+      if (order.state !== "refund_pending") {
+        return order;
+      }
+      order.refundId = event.data.refund_id;
+    } else if (order.refundId !== event.data.refund_id) {
+      return order;
+    }
+
     order.state = transitionOrder(order.state, event);
   }
 

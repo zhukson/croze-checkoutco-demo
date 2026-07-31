@@ -40,8 +40,12 @@ export function transitionOrder(
   event: WebhookEvent,
 ): OrderState {
   if (event.type === "payment.succeeded") {
+    if (current !== "created" && current !== "payment_pending") {
+      return current;
+    }
+
     return event.data.status === "paid" ? "paid" : "payment_pending";
   }
 
-  return "refunded";
+  return current === "refund_pending" ? "refunded" : current;
 }
